@@ -1,12 +1,13 @@
-"use client";
-
-import React, { use } from "react";
-import { useGlobalContext } from "@/store/useGlobalContext";
+import { ModeToggle } from "@/components/ui/toggle";
+import { UserButton } from "@clerk/nextjs";
 
 const Home = () => {
-  const { isOpen, setIsOpen } = useGlobalContext();
-
-  return <div onClick={() => setIsOpen(true)}>Home</div>;
+  return (
+    <div>
+      <UserButton afterSignOutUrl="/" />
+      <ModeToggle />
+    </div>
+  );
 };
 
 export default Home;

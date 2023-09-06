@@ -2,6 +2,8 @@ import "./globals.css";
 import type { Metadata } from "next";
 import { Open_Sans } from "next/font/google";
 import { GlobalContextProvider } from "@/store/useGlobalContext";
+import { ClerkProvider } from "@clerk/nextjs";
+import { ThemeProvider } from "@/components/ui/theme-provider";
 
 const font = Open_Sans({ subsets: ["latin"] });
 
@@ -16,10 +18,19 @@ export default function RootLayout({
   children: React.ReactNode;
 }) {
   return (
-    <html lang="en">
-      <body className={font.className}>
-        <GlobalContextProvider>{children}</GlobalContextProvider>
-      </body>
-    </html>
+    <ClerkProvider>
+      <html lang="en" suppressHydrationWarning>
+        <body className={font.className}>
+          <ThemeProvider
+            attribute="class"
+            defaultTheme="light"
+            enableSystem={false}
+            storageKey="discord-key"
+          >
+            <GlobalContextProvider>{children}</GlobalContextProvider>
+          </ThemeProvider>
+        </body>
+      </html>
+    </ClerkProvider>
   );
 }
