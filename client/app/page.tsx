@@ -1,26 +1,15 @@
-"use client";
+import { userFetch } from "@/api/user";
+import { getServerUser } from "@/api/server";
+import { redirect } from "next/navigation";
+import Modal from "@/components/modals/Modal";
 
-import { ModeToggle } from "@/components/ui/toggle";
-import { UserButton } from "@clerk/nextjs";
-import { useFetch } from "@/providers/fetch";
+const Home = async () => {
+  const { data } = await userFetch();
+  const { data: serverUser } = await getServerUser(data._id);
 
-async function getUser() {
-  const res = await fetch(`${process.env.NEXT_PUBLIC_SERVER_URL}/user`, {
-    method: "POST",
-  });
-  const users = await res.json();
-  return users;
-}
+  if (serverUser) return redirect(`/server/${serverUser.profileId}`);
 
-const Home = () => {
-  const { data } = useFetch({ action: getUser, key: "user" });
-
-  return (
-    <div>
-      <UserButton afterSignOutUrl="/" />
-      <ModeToggle />
-    </div>
-  );
+  return <Modal />;
 };
 
 export default Home;

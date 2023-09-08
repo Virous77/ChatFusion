@@ -4,7 +4,6 @@ import { Open_Sans } from "next/font/google";
 import { GlobalContextProvider } from "@/store/useGlobalContext";
 import { ClerkProvider } from "@clerk/nextjs";
 import { ThemeProvider } from "@/components/ui/theme-provider";
-import Providers from "@/providers/providers";
 
 const font = Open_Sans({ subsets: ["latin"] });
 
@@ -28,9 +27,7 @@ export default function RootLayout({
             enableSystem={false}
             storageKey="discord-key"
           >
-            <Providers>
-              <GlobalContextProvider>{children}</GlobalContextProvider>
-            </Providers>
+            <GlobalContextProvider>{children}</GlobalContextProvider>
           </ThemeProvider>
         </body>
       </html>
