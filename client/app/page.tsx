@@ -2,14 +2,25 @@ import { userFetch } from "@/api/user";
 import { getServerUser } from "@/api/server";
 import { redirect } from "next/navigation";
 import Modal from "@/components/modals/Modal";
+import { User, Server } from "@/types/interface";
+
+type ResponseUser = {
+  status: boolean;
+  data: User;
+};
+
+export type ResponseServer = {
+  status: boolean;
+  data: Server;
+};
 
 const Home = async () => {
-  const { data } = await userFetch();
-  const { data: serverUser } = await getServerUser(data._id);
+  const { data }: ResponseUser = await userFetch();
+  const { data: serverUser }: ResponseServer = await getServerUser(data.userId);
 
-  if (serverUser) return redirect(`/server/${serverUser.profileId}`);
+  if (serverUser) return redirect(`/server/${serverUser.userAuthId}`);
 
-  return <Modal />;
+  return <Modal userData={data} />;
 };
 
 export default Home;

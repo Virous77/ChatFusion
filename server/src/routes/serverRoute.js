@@ -3,10 +3,11 @@ import {
   createServer,
   getServerUser,
 } from "../controllers/serverController.js";
+import { ServerValidate } from "../middleware/validate.js";
 
 const router = express.Router();
 
 router.get("/server/:id", getServerUser);
-router.post("/server", createServer);
+router.post("/server", ServerValidate, createServer);
 
 export default router;

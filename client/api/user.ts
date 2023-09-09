@@ -1,4 +1,5 @@
 import { currentUser, redirectToSignIn } from "@clerk/nextjs";
+import { apiPostParams } from "@/utils/util";
 
 export const userFetch = async () => {
   const user = await currentUser();
@@ -11,12 +12,10 @@ export const userFetch = async () => {
     imageUrl: user.imageUrl,
   };
 
+  const params = apiPostParams(data);
+
   const res = await fetch(`${process.env.NEXT_PUBLIC_SERVER_URL}/user`, {
-    method: "POST",
-    body: JSON.stringify(data),
-    headers: {
-      "Content-Type": "application/json",
-    },
+    ...params,
   });
   const users = await res.json();
   return users;

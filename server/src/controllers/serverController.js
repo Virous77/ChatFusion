@@ -2,7 +2,10 @@ import serverModel from "../models/serverModel.js";
 
 export const createServer = async (req, res, next) => {
   try {
-    console.log(req.body);
+    const serverUser = new serverModel(req.body);
+    await serverUser.save();
+
+    res.status(201).json({ status: true, data: serverUser });
   } catch (error) {
     next(error);
   }
@@ -11,7 +14,7 @@ export const createServer = async (req, res, next) => {
 export const getServerUser = async (req, res, next) => {
   try {
     const serverUser = await serverModel.findOne({
-      profileId: req.params.id,
+      userAuthId: req.params.id,
     });
 
     if (!serverUser)

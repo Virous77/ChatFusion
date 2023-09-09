@@ -23,6 +23,10 @@ import {
 import { Input } from "../ui/input";
 import { Button } from "../ui/button";
 import UploadImage from "../uploadImage/image";
+import { createServerUser } from "@/api/server";
+import { User } from "@/types/interface";
+import { redirect } from "next/navigation";
+import { ResponseServer } from "@/app/page";
 
 const formSchema = z.object({
   name: z.string().min(1, {
@@ -33,7 +37,11 @@ const formSchema = z.object({
   }),
 });
 
-const Modal = () => {
+type PropsType = {
+  userData: User;
+};
+
+const Modal: React.FC<PropsType> = ({ userData }) => {
   const [modal, setModal] = useState(false);
 
   const form = useForm({
@@ -45,7 +53,14 @@ const Modal = () => {
   });
 
   const onSave = async (values: z.infer<typeof formSchema>) => {
-    console.log(values);
+    const data = {
+      ...values,
+      userAuthId: userData.userId,
+      email: userData.email,
+    };
+
+    const serverUser: ResponseServer = await createServerUser(data);
+    if (serverUser.status) redirect(`/server/${serverUser.data.userAuthId}`);
   };
 
   const isLoading = form.formState.isSubmitting;

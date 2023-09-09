@@ -4,10 +4,10 @@ const ServerSchema = new mongoose.Schema(
   {
     inviteCode: {
       type: String,
-      required: true,
     },
     name: {
       type: String,
+      required: true,
     },
     email: {
       type: String,
@@ -15,10 +15,11 @@ const ServerSchema = new mongoose.Schema(
     },
     imageUrl: {
       type: String,
+      required: true,
     },
-    profileId: {
-      type: mongoose.Schema.Types.ObjectId,
-      ref: "users",
+    userAuthId: {
+      type: String,
+      required: true,
     },
   },
   {

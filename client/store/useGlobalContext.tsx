@@ -34,11 +34,6 @@ export const GlobalContextProvider = ({
   const [isOpen, setIsOpen] = useState(false);
   const { isLoaded, userId, sessionId, getToken } = useAuth();
 
-  console.log("isLoaded", isLoaded);
-  console.log("userId", userId);
-  console.log("sessionId", sessionId);
-  // console.log("getToken", getToken);
-
   return (
     <GlobalContext.Provider
       value={{ isOpen, setIsOpen, isLoaded, userId, sessionId, getToken }}
