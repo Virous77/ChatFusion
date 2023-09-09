@@ -7,7 +7,7 @@ import { ServerValidate } from "../middleware/validate.js";
 
 const router = express.Router();
 
-router.get("/server/:id", getServerUser);
+router.get("/server/:id/:type", getServerUser);
 router.post("/server", ServerValidate, createServer);
 
 export default router;

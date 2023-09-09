@@ -16,7 +16,10 @@ export type ResponseServer = {
 
 const Home = async () => {
   const { data }: ResponseUser = await userFetch();
-  const { data: serverUser }: ResponseServer = await getServerUser(data.userId);
+  const { data: serverUser }: ResponseServer = await getServerUser({
+    id: data.userId,
+    type: "one",
+  });
 
   if (serverUser) return redirect(`/server/${serverUser.userAuthId}`);
 

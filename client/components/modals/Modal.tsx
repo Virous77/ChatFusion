@@ -25,8 +25,9 @@ import { Button } from "../ui/button";
 import UploadImage from "../uploadImage/image";
 import { createServerUser } from "@/api/server";
 import { User } from "@/types/interface";
-import { redirect } from "next/navigation";
+import { useRouter } from "next/navigation";
 import { ResponseServer } from "@/app/page";
+import { v4 as uuidv4 } from "uuid";
 
 const formSchema = z.object({
   name: z.string().min(1, {
@@ -43,6 +44,7 @@ type PropsType = {
 
 const Modal: React.FC<PropsType> = ({ userData }) => {
   const [modal, setModal] = useState(false);
+  const router = useRouter();
 
   const form = useForm({
     resolver: zodResolver(formSchema),
@@ -57,10 +59,11 @@ const Modal: React.FC<PropsType> = ({ userData }) => {
       ...values,
       userAuthId: userData.userId,
       email: userData.email,
+      inviteCode: uuidv4(),
     };
 
     const serverUser: ResponseServer = await createServerUser(data);
-    if (serverUser.status) redirect(`/server/${serverUser.data.userAuthId}`);
+    if (serverUser.status) router.push(`/server/${serverUser.data.userAuthId}`);
   };
 
   const isLoading = form.formState.isSubmitting;
